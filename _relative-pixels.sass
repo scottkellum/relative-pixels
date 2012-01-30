@@ -7,27 +7,30 @@ $base-size: 16px !default
 // Convert dips to em, rem, or px
 $dip-conversion: em !default
 
+// Context offset
+$dip-offset: 1 !default
+
 // Convert dips to em or rem (px will not work because the W3C spec considers px to be density independent pixels)
 $px-conversion: em !default
 
-@function dip($number, $dip-conversion)
+@function dip($number, $dip-offset, $dip-conversion)
   @if $dip-conversion == px
     @return $number * 1px
   @if $dip-conversion == em
-    @return $number / ($base-size / 1px) * 1em
+    @return ($number / ($base-size / 1px)) * (1 / $offset) * 1em
   @if $dip-conversion == rem
     @return $number / ($base-size / 1px) * 1rem
 
-@function dp($number, $dip-conversion)
-  @return dip($number, $dip-conversion)
+@function dp($number, $dip-offset, $dip-conversion)
+  @return dip($number, $dip-offset, $dip-conversion)
 
 // Simple px => em conversion
-@function em($number)
-  @return dip($number, em)
+@function em($number, $dip-offset)
+  @return dip($number, $dip-offset, em)
 
 // Simple px => rem conversion
-@function em($number)
-  @return dip($number, rem)
+@function em($number, $dip-offset)
+  @return dip($number, $dip-offset, rem)
 
 
 // Converting to device px is more diffucult
