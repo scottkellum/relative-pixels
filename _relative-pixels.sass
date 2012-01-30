@@ -8,29 +8,29 @@ $base-size: 16px !default
 $dip-conversion: em !default
 
 // Context offset
-$dip-offset: 1 !default
+$em-offset: 1 !default
 
 // Convert dips to em or rem (px will not work because the W3C spec considers px to be density independent pixels)
 $px-conversion: em !default
 
-@function dip($number, $dip-offset, $dip-conversion)
-  $unitless-dip-offset: $dip-offset / 1em
-  @if unitless($dip-offset)
-    $unitless-dip-offset: $dip-offset
+@function dip($number, $em-offset, $dip-conversion)
+  $unitless-em-offset: $em-offset / 1em
+  @if unitless($em-offset)
+    $unitless-em-offset: $em-offset
   @if $dip-conversion == px
     @return $number * 1px
   @if $dip-conversion == em
-    @return ($number / ($base-size / 1px)) * (1 / $unitless-dip-offset) * 1em
+    @return ($number / ($base-size / 1px)) * (1 / $unitless-em-offset) * 1em
   @if $dip-conversion == rem
     @return $number / ($base-size / 1px) * 1rem
 
-@function dp($number, $dip-offset, $dip-conversion)
-  @return dip($number, $dip-offset, $dip-conversion)
+@function dp($number, $em-offset, $dip-conversion)
+  @return dip($number, $em-offset, $dip-conversion)
 
 // Simple px => em conversion
-@function em($number, $dip-offset)
-  @return dip($number, $dip-offset, em)
+@function em($number, $em-offset)
+  @return dip($number, $em-offset, em)
 
 // Simple px => rem conversion
-@function em($number, $dip-offset)
-  @return dip($number, $dip-offset, rem)
+@function em($number, $em-offset)
+  @return dip($number, $em-offset, rem)
