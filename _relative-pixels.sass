@@ -14,10 +14,13 @@ $dip-offset: 1 !default
 $px-conversion: em !default
 
 @function dip($number, $dip-offset, $dip-conversion)
+  $unitless-dip-offset: $dip-offset / 1em
+  @if unitless($dip-offset)
+    $unitless-dip-offset: $dip-offset
   @if $dip-conversion == px
     @return $number * 1px
   @if $dip-conversion == em
-    @return ($number / ($base-size / 1px)) * (1 / $offset) * 1em
+    @return ($number / ($base-size / 1px)) * (1 / $unitless-dip-offset) * 1em
   @if $dip-conversion == rem
     @return $number / ($base-size / 1px) * 1rem
 
@@ -31,8 +34,3 @@ $px-conversion: em !default
 // Simple px => rem conversion
 @function em($number, $dip-offset)
   @return dip($number, $dip-offset, rem)
-
-
-// Converting to device px is more diffucult
-// Values need to be collected and inserted into @media queries
-// Possible use of @extend, not as simple as writing a value. Screen needs to be queried and accounted for.
